@@ -1,0 +1,29 @@
+.title{
+    text-align: center;
+    font-style:oblique;
+    padding: 30px;
+}
+.title2{
+    text-align: center;
+    padding: 15px;
+    font-family:initial;
+}
+
+.box{
+    margin: 80px;
+    border: 0px;
+    background-color: rgb(238 238 249)
+}
+.footer{
+    display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #210b43;
+  padding: 10px 0;
+  color:white;
+}
+.button{
+    background-color: rgb(220, 77, 77);
+    color:white;
+}
