@@ -81,26 +81,49 @@ function calcularCredito(price, downPayment, term) {
       " por mes"
   );
 }
-//Incorporacion de Arrays//
+// Incorporacion de Arrays//
 
 
-// const myArray = ["Semanal", "Mensual", "Anual"]
+const myArray = ["Semanal", "Mensual", "Anual"]
 
 
-// myArray.shift()
+myArray.shift()
 
-// alert(myArray);
+alert(myArray);
 
 
 // Casos de error
-alert("CASOS DE ERROR");
-calcularCredito(10, 20000);
-calcularCredito(999999999, 20000);
-calcularCredito(120000, 121000);
-calcularCredito(120000, 20);
-calcularCredito(120000, 20000, 0);
-calcularCredito(120000, 20000, 21);
+// alert("CASOS DE ERROR");
+// calcularCredito(10, 20000);
+// calcularCredito(999999999, 20000);
+// calcularCredito(120000, 121000);
+// calcularCredito(120000, 20);
+// calcularCredito(120000, 20000, 0);
+// calcularCredito(120000, 20000, 21);
 
 // Caso de exito
-alert("CASO DE EXITO");
-calcularCredito(120000, 20000, 1);
+// alert("CASO DE EXITO");
+// calcularCredito(120000, 20000, 1);
+
+
+//DOM
+
+let anticipo = document.getElementById("anticipo");
+let precioPropiedad = document.getElementById("precioPropiedad");
+
+const x = {
+    a : anticipo,
+    b : precioPropiedad
+}
+
+console.log(x);
+
+
+
+// EVENTOS
+
+const boton = document.getElementById("botoon");
+
+boton.onclick = () => {console.log("Hiciste Click") }
+
+

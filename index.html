@@ -44,10 +44,10 @@
 
 <div class="box">
     <lable for="price">Precio propiedad</lable>
-    <input type="number" id="price" name="price" />
+    <input id="precioPropiedad" type="number" id="price" name="price" />
     
     <lable for="downPayment">Anticipo</lable>
-    <input type="number" id="downPayment" name="downPayment" />
+    <input id="anticipo" type="number" id="downPayment" name="downPayment" />
 
     <select class="form-select" aria-label="Default select example">
       <option selected disabled>Plazo del credito</option>
@@ -57,7 +57,18 @@
       <option value="20">20</option>
     </select>
 
-    <button class="button">Calcular</button>
+    <div>
+      <h3>Elegi la opcion que te quede mas comoda!</h3>
+
+    <ul>
+      <li>Semanal</li>
+      <li>Quincenal</li>
+      <li>Mensual</li>
+      <li>Anual</li>
+     </ul>
+  </div>
+
+    <button id="botoon">Calcular</button>
 
     <script src="main.js"></script>
   </div>
