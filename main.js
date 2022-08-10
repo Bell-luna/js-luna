@@ -10,11 +10,15 @@ const yearsToMonths = (years) => {
 };
 
 function calculaValorCredito(price, downPayment) {
- this.price = price,
- this.downPayment = downPayment
+  return price - downPayment;
+}
+
+const guardaLocal = (clave, valor) => {
+  localStorage.setItem(clave, valor);
 };
-const calcularVc = new calculaValorCredito("20000000","100000");
-console.log(calcularVc);
+function recuperarLocal(clave) {
+  return localStorage.getItem(clave);
+}
 
 /*
     price: el precio de la casa
@@ -22,25 +26,24 @@ console.log(calcularVc);
     term: el plazo del credito en años
 */
 function calcularCredito(price, downPayment, term) {
-  prompt("Colocar el price", price, "downPayment", downPayment, "term", term)
   // Voy a comprobar que el precio este entre el MIN y el MAX
   if (price < MIN_PRICE) {
-    alert("El precio tiene que ser mayor a " + MIN_PRICE);
+    swal("El precio tiene que ser mayor a " + MIN_PRICE);
     return;
   }
   if (price > MAX_PRICE) {
-    alert("El precio tiene que ser menor a " + MAX_PRICE);
+    swal("El precio tiene que ser menor a " + MAX_PRICE);
     return;
   }
 
   // Voy a dar error si el downPayment es mayor al precio
   if (price < downPayment) {
-    alert("El downPayment tiene que ser menor al precio");
+    swal("El downPayment tiene que ser menor al precio");
     return;
   }
   // Voy a comprobar que el downpayment respete el minimo ratio
   if (downPayment / price < DOWNPAYMENT_RATIO) {
-    alert(
+    swal(
       "El downpayment tiene que ser como minimo el " +
         DOWNPAYMENT_RATIO +
         " de " +
@@ -49,13 +52,20 @@ function calcularCredito(price, downPayment, term) {
     return;
   }
 
+  console.log("term", term);
+
+  if (isNaN(term)) {
+    swal("Elige un term");
+    return;
+  }
+
   // Voy a comprobar que el term este entre el MIN_TERM y MAX_TERM
   if (term < MIN_TERM) {
-    alert("El term tiene que ser mayor a " + MIN_TERM);
+    swal("El term tiene que ser mayor a " + MIN_TERM);
     return;
   }
   if (term > MAX_TERM) {
-    alert("El term tiene que ser menor a " + MAX_TERM);
+    swal("El term tiene que ser menor a " + MAX_TERM);
     return;
   }
 
@@ -73,24 +83,11 @@ function calcularCredito(price, downPayment, term) {
   const termMonth = yearsToMonths(term);
   const monthlyPayment = credito / termMonth;
 
-  alert(
-    "OK el credito es " +
-      credito +
-      " tenes que pagar " +
-      monthlyPayment +
-      " por mes"
-  );
+  return {
+    credito,
+    monthlyPayment,
+  };
 }
-// Incorporacion de Arrays//
-
-
-const myArray = ["Semanal", "Mensual", "Anual"]
-
-
-myArray.shift()
-
-alert(myArray);
-
 
 // Casos de error
 // alert("CASOS DE ERROR");
@@ -105,25 +102,71 @@ alert(myArray);
 // alert("CASO DE EXITO");
 // calcularCredito(120000, 20000, 1);
 
+const LS_CLAVE = "credito";
 
-//DOM
+// DOM
+const boton = document.getElementById("calcular");
+boton.onclick = () => {
+  console.log("Hiciste Click");
 
-let anticipo = document.getElementById("anticipo");
-let precioPropiedad = document.getElementById("precioPropiedad");
+  // Obtenemos el valor de los input
+  const anticipo = document.getElementById("anticipo").value;
+  const precioPropiedad = document.getElementById("precioPropiedad").value;
+  const plazo = document.getElementById("plazo").value;
+  console.log(
+    "anticipo",
+    anticipo,
+    "precioPropiedad",
+    precioPropiedad,
+    "plazo",
+    plazo
+  );
 
-const x = {
-    a : anticipo,
-    b : precioPropiedad
-}
+  // Calculamos el credito
+  const calculo = calcularCredito(precioPropiedad, anticipo, plazo);
+  console.log(calculo);
 
-console.log(x);
+  // Escribimos en el DOM el resultado
+  document.getElementById("resultadoCredito").innerHTML =
+    "Credito: " + calculo.credito;
+  document.getElementById("pagoMensual").innerHTML =
+    "Pago Mensual: " + calculo.monthlyPayment;
 
+  // Guardamos el resultado en LS
+  guardaLocal(LS_CLAVE, JSON.stringify(calculo));
+};
 
+document.addEventListener("DOMContentLoaded", () => {
+  console.log("cargamos!");
+  const calculo = JSON.parse(recuperarLocal(LS_CLAVE));
 
-// EVENTOS
+  if (calculo) {
+    // Escribimos en el DOM el resultado
+    document.getElementById("resultadoCredito").innerHTML =
+      "Credito: " + calculo.credito;
+    document.getElementById("pagoMensual").innerHTML =
+      "Pago Mensual: " + calculo.monthlyPayment;
+  }
+});
 
-const boton = document.getElementById("botoon");
+// Sweet alert
 
-boton.onclick = () => {console.log("Hiciste Click") }
+swal("Queres crear un presupuesto?", {
+  dangerMode: true,
+  buttons: true,
+});
 
+// AJAX/FETCH
 
+fetch("https://www.dolarsi.com/api/api.php?type=valoresprincipales")
+  .then((response) => response.json())
+  .then((dolares) => {
+    const dolarOficial = dolares.find((dolar) => {
+      if (dolar.casa.nombre === "Dolar Oficial") return true;
+      return false;
+    });
+    console.log(dolarOficial);
+    document.getElementById("dolar").innerHTML =
+      "Dolar: " + dolarOficial.casa.venta;
+  });
+  
