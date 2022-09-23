@@ -11,3 +11,26 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.nav-enl {
+  display: inline-block;
+   background: rgb(234, 225, 225);
+   color: gray;
+   padding: 20px 30px;
+   text-decoration: none;
+   
+}
+.nav-enl:hover {
+background:rgb(207, 199, 199) ;
+}
+nav{
+  background:rgb(249, 243, 243) ;
+}
+.marca {
+  display: inline-block;
+   background: rgb(234, 225, 225);
+   color: gray;
+   padding: 20px 30px;
+   text-decoration: none;
+   
+}
+
